@@ -1,8 +1,10 @@
 # Smart Library Management System Using DSA in C++
 
-This is a console-based Library Management System built for a DSA project in C++.
-It is not only a CRUD application: the main features are powered by visible data
-structures and algorithms.
+![C++](https://img.shields.io/badge/C%2B%2B-17-blue)
+![DSA](https://img.shields.io/badge/DSA-AVL%20Trie%20Queue%20Heap-green)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+
+A full-featured library management system built as a Data Structures and Algorithms project in C++. It combines console-based operations with a browser-based demo interface to showcase practical implementations of AVL trees, tries, heaps, queues, stacks, and hash maps.
 
 ## Features
 
@@ -139,6 +141,10 @@ build\SmartLibraryDSA.exe
 
 Run it from the project root folder so it can read and write files inside the
 `data` folder.
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
 
 ## Sample Data
 
