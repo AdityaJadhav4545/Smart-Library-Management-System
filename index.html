@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Library Management System</title>
+    <link rel="stylesheet" href="web/style.css">
+</head>
+<body>
+    <section id="loginScreen" class="login-screen">
+        <div class="login-card">
+            <div class="login-brand">
+                <img src="web/library-shelf.png" alt="Library shelves">
+                <div>
+                    <p class="eyebrow">Role Based Access</p>
+                    <h1>Smart Library</h1>
+                </div>
+            </div>
+
+            <form id="loginForm" class="login-form">
+                <label>Username <input id="loginUsername" autocomplete="username" required placeholder="admin"></label>
+                <label>Password <input id="loginPassword" type="password" autocomplete="current-password" required placeholder="admin123"></label>
+                <button class="button primary" type="submit">Login</button>
+                <p id="loginError" class="form-error" aria-live="polite"></p>
+            </form>
+
+            <div class="demo-accounts">
+                <strong>Demo Accounts</strong>
+                <span>Admin: admin / admin123</span>
+                <span>Librarian: librarian / lib123</span>
+                <span>Member: aarav / member123</span>
+            </div>
+        </div>
+    </section>
+
+    <div id="appShell" class="app-shell is-hidden">
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="web/library-shelf.png" alt="Library shelves">
+                <div>
+                    <h1>Smart Library</h1>
+                    <p>DSA Management System</p>
+                </div>
+            </div>
+
+            <nav class="nav-tabs" aria-label="Main sections">
+                <button class="tab-button active" data-tab="dashboard" data-roles="admin,librarian,member" type="button">Dashboard</button>
+                <button class="tab-button" data-tab="books" data-roles="admin,librarian,member" type="button">Books</button>
+                <button class="tab-button" data-tab="members" data-roles="admin,librarian" type="button">Members</button>
+                <button class="tab-button" data-tab="circulation" data-roles="admin,librarian" type="button">Issue / Return</button>
+                <button class="tab-button" data-tab="due" data-roles="admin,librarian,member" type="button">Due Books</button>
+                <button class="tab-button" data-tab="activity" data-roles="admin,librarian" type="button">Activity</button>
+                <button class="tab-button" data-tab="dsa" data-roles="admin,librarian,member" type="button">DSA Map</button>
+            </nav>
+
+            <div class="user-card">
+                <span id="currentUserName">User</span>
+                <strong id="currentUserRole">Role</strong>
+                <button id="logoutBtn" class="button" type="button">Logout</button>
+            </div>
+
+            <div class="sidebar-actions">
+                <button id="saveDataBtn" class="button primary" data-permission="saveData" type="button">Save Data</button>
+                <button id="resetDataBtn" class="button danger" data-permission="resetData" type="button">Reset Demo</button>
+            </div>
+        </aside>
+
+        <main class="workspace">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">Browser App</p>
+                    <h2 id="pageTitle">Dashboard</h2>
+                </div>
+                <div class="status-pill" id="statusText">Ready</div>
+            </header>
+
+            <section id="dashboard" class="view active">
+                <div class="metrics-grid">
+                    <article class="metric">
+                        <span>Total Books</span>
+                        <strong id="metricBooks">0</strong>
+                    </article>
+                    <article class="metric">
+                        <span>Members</span>
+                        <strong id="metricMembers">0</strong>
+                    </article>
+                    <article class="metric">
+                        <span>Issued Books</span>
+                        <strong id="metricIssued">0</strong>
+                    </article>
+                    <article class="metric">
+                        <span>Waiting List</span>
+                        <strong id="metricWaiting">0</strong>
+                    </article>
+                </div>
+
+                <div class="dashboard-layout">
+                    <section class="panel">
+                        <div class="panel-heading">
+                            <h3>Quick Actions</h3>
+                            <p>Use the main tabs to manage the library data.</p>
+                        </div>
+                        <div class="quick-actions">
+                            <button class="button" data-jump="books" data-roles="admin,librarian,member" type="button">Manage Books</button>
+                            <button class="button" data-jump="members" data-roles="admin,librarian" type="button">Register Member</button>
+                            <button class="button" data-jump="circulation" data-roles="admin,librarian" type="button">Issue Book</button>
+                            <button class="button" data-jump="due" data-roles="admin,librarian,member" type="button">Check Overdue</button>
+                        </div>
+                    </section>
+
+                    <section class="panel">
+                        <div class="panel-heading">
+                            <h3>DSA Highlights</h3>
+                            <p>The web app mirrors the DSA concepts used in the C++ project.</p>
+                        </div>
+                        <div class="compact-list">
+                            <span>AVL Tree sorts books by title</span>
+                            <span>Trie searches title prefixes</span>
+                            <span>Queue controls book waiting lists</span>
+                            <span>Min Heap orders due dates</span>
+                        </div>
+                    </section>
+                </div>
+            </section>
+
+            <section id="books" class="view">
+                <div class="two-column">
+                    <form id="bookForm" class="panel form-panel" data-permission="addBook">
+                        <div class="panel-heading">
+                            <h3>Add Book</h3>
+                            <p>New books are indexed by hash table, AVL Tree, and Trie.</p>
+                        </div>
+                        <label>Book ID <input id="bookId" required placeholder="B007"></label>
+                        <label>Title <input id="bookTitle" required placeholder="Computer Networks"></label>
+                        <label>Author <input id="bookAuthor" required placeholder="Andrew S. Tanenbaum"></label>
+                        <label>Category <input id="bookCategory" required placeholder="Networking"></label>
+                        <label>Total Copies <input id="bookCopies" type="number" min="1" value="1" required></label>
+                        <button class="button primary" type="submit">Add Book</button>
+                    </form>
+
+                    <section class="panel">
+                        <div class="panel-heading">
+                            <h3>Search Books</h3>
+                            <p>Prefix mode uses Trie. ID mode uses hash lookup.</p>
+                        </div>
+                        <div class="toolbar">
+                            <select id="bookSearchMode" aria-label="Book search mode">
+                                <option value="prefix">Title Prefix</option>
+                                <option value="id">Book ID</option>
+                            </select>
+                            <input id="bookSearch" placeholder="Search books">
+                            <button id="clearBookSearch" class="button" type="button">Clear</button>
+                        </div>
+                    </section>
+                </div>
+
+                <section class="panel table-panel">
+                    <div class="panel-heading row-heading">
+                        <div>
+                            <h3>Book Inventory</h3>
+                            <p>Displayed in sorted title order using the AVL Tree.</p>
+                        </div>
+                        <span id="bookResultCount" class="count-label">0 books</span>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Author</th>
+                                    <th>Category</th>
+                                    <th>Copies</th>
+                                    <th>Queue</th>
+                                    <th>Issues</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="booksTable"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </section>
+
+            <section id="members" class="view">
+                <div class="two-column">
+                    <form id="memberForm" class="panel form-panel" data-permission="registerMember">
+                        <div class="panel-heading">
+                            <h3>Register Member</h3>
+                            <p>Members are stored by ID for fast hash lookup.</p>
+                        </div>
+                        <label>Member ID <input id="memberId" required placeholder="M005"></label>
+                        <label>Name <input id="memberName" required placeholder="Student Name"></label>
+                        <label>Email / Phone <input id="memberContact" required placeholder="student@example.com"></label>
+                        <button class="button primary" type="submit">Register Member</button>
+                    </form>
+
+                    <section class="panel">
+                        <div class="panel-heading">
+                            <h3>Member Search</h3>
+                            <p>Search by ID or name.</p>
+                        </div>
+                        <input id="memberSearch" placeholder="Search members">
+                    </section>
+                </div>
+
+                <section class="panel table-panel">
+                    <div class="panel-heading row-heading">
+                        <div>
+                            <h3>Members</h3>
+                            <p>Borrow counts update automatically.</p>
+                        </div>
+                        <span id="memberResultCount" class="count-label">0 members</span>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Contact</th>
+                                    <th>Borrowed</th>
+                                </tr>
+                            </thead>
+                            <tbody id="membersTable"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </section>
+
+            <section id="circulation" class="view">
+                <div class="two-column">
+                    <form id="issueForm" class="panel form-panel" data-permission="issueBook">
+                        <div class="panel-heading">
+                            <h3>Issue Book</h3>
+                            <p>If no copy is available, the member enters the queue.</p>
+                        </div>
+                        <label>Book <select id="issueBook" required></select></label>
+                        <label>Member <select id="issueMember" required></select></label>
+                        <label>Issue Date <input id="issueDate" type="date" required></label>
+                        <label>Due Date <input id="dueDate" type="date" required></label>
+                        <button class="button primary" type="submit">Issue Book</button>
+                    </form>
+
+                    <form id="returnForm" class="panel form-panel" data-permission="returnBook">
+                        <div class="panel-heading">
+                            <h3>Return Book</h3>
+                            <p>Returned books can be assigned to the next waiting member.</p>
+                        </div>
+                        <label>Active Borrow Record <select id="returnRecord" required></select></label>
+                        <label>Return Date <input id="returnDate" type="date" required></label>
+                        <button class="button primary" type="submit">Return Book</button>
+                    </form>
+                </div>
+
+                <section class="panel table-panel">
+                    <div class="panel-heading row-heading">
+                        <div>
+                            <h3>Active Borrow Records</h3>
+                            <p>These records feed the Min Heap due-date view.</p>
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Book</th>
+                                    <th>Member</th>
+                                    <th>Issued</th>
+                                    <th>Due</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="borrowTable"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="panel table-panel">
+                    <div class="panel-heading">
+                        <h3>Waiting Lists</h3>
+                        <p>Each book has a first-in-first-out linked-list queue.</p>
+                    </div>
+                    <div id="waitListView" class="wait-list-view"></div>
+                </section>
+            </section>
+
+            <section id="due" class="view">
+                <section class="panel">
+                    <div class="panel-heading">
+                        <h3>Due and Overdue Books</h3>
+                        <p>Records are sorted by a custom Min Heap.</p>
+                    </div>
+                    <div class="toolbar compact">
+                        <label class="date-inline">Current Date <input id="currentDate" type="date"></label>
+                        <button id="refreshDueBtn" class="button" type="button">Refresh</button>
+                    </div>
+                </section>
+
+                <section class="panel table-panel">
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Book</th>
+                                    <th>Member</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dueTable"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </section>
+
+            <section id="activity" class="view">
+                <section class="panel table-panel">
+                    <div class="panel-heading">
+                        <h3>Recent Transactions</h3>
+                        <p>Newest actions are displayed first using a stack.</p>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Book</th>
+                                    <th>Member</th>
+                                    <th>Date</th>
+                                    <th>Note</th>
+                                </tr>
+                            </thead>
+                            <tbody id="activityTable"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </section>
+
+            <section id="dsa" class="view">
+                <div class="dsa-grid">
+                    <article class="panel">
+                        <h3>Hash Table</h3>
+                        <p>Books and members are stored by ID for fast lookup.</p>
+                    </article>
+                    <article class="panel">
+                        <h3>AVL Tree</h3>
+                        <p>Books are inserted into a balanced tree and shown in title order.</p>
+                    </article>
+                    <article class="panel">
+                        <h3>Trie</h3>
+                        <p>Title prefix search walks characters through a prefix tree.</p>
+                    </article>
+                    <article class="panel">
+                        <h3>Queue</h3>
+                        <p>Unavailable books use a first-come-first-served waiting list.</p>
+                    </article>
+                    <article class="panel">
+                        <h3>Stack</h3>
+                        <p>Transactions are pushed and displayed from newest to oldest.</p>
+                    </article>
+                    <article class="panel">
+                        <h3>Min Heap</h3>
+                        <p>Due records are popped in earliest-date-first order.</p>
+                    </article>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="web/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+B001|The C++ Programming Language|Bjarne Stroustrup|Programming|4|3|5
+B002|Introduction to Algorithms|Cormen Leiserson Rivest Stein|DSA|3|2|7
+B003|Clean Code|Robert C Martin|Software Engineering|2|2|4
+B004|Data Structures Using C++|D S Malik|DSA|5|5|2
+B005|Database System Concepts|Silberschatz Korth Sudarshan|Database|2|1|3
+B006|Operating System Concepts|Silberschatz Galvin Gagne|Operating Systems|1|0|6

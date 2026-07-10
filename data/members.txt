@@ -1,0 +1,4 @@
+M001|Aarav Sharma|aarav@example.com
+M002|Diya Patel|diya@example.com
+M003|Kabir Verma|kabir@example.com
+M004|Ananya Rao|ananya@example.com
